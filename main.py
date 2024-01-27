@@ -11,12 +11,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 logging.basicConfig(
-format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Hi! I'm a bot!")
+
+
 async def poland(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dt_utc = datetime.datetime.utcnow()
     # dt_now_poland = datetime.datetime(dt_utc.year, dt_utc.month, dt_utc.day, dt_utc.hour, dt_utc.minute, dt_utc.second, tzinfo=ZoneInfo('Poland'))
@@ -28,10 +31,16 @@ async def poland(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(str(dt_now_poland))
     # dt_now_poland_dst = dt_now_poland.dst()
     await context.bot.send_message(chat_id=update.effective_chat.id, text=str(dt_now_poland))
+
+
 async def japan(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    dt_now = datetime.datetime.now()
-    # dt_japan = pytz.timezone('Japan').localize(dt_utc)
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=str(dt_now))
+    # dt_utc = datetime.datetime.now(tz=)
+
+    # dt_japan = dt_utc.astimezone(tz=pytz.timezone('Japan'))
+    dt_japan = datetime.datetime.now(tz=pytz.timezone('Japan'))
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=str(dt_japan))
+
+
 application = ApplicationBuilder().token(os.getenv('TOKEN')).build()
 start_handler = CommandHandler('start', start)
 poland_handler = CommandHandler('poland', poland)
